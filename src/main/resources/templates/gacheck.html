@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>gagal checkout</title>
+        <style>
+            /* Style untuk halaman "gagal checkout" */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: yellow; /* Warna latar belakang yang sesuai dengan tema McDonald's */
+    text-align: center;
+    padding: 50px;
+}
+
+h1 {
+    color: #d12028; /* McDonald's red */
+}
+
+button {
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    background-color: #d12028; /* McDonald's red */
+    color: #fff; /* Warna teks putih */
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: 20px;
+}
+
+button:hover {
+    background-color: #ae1c23; /* Darker red on hover */
+}
+
+        </style>
+    </head>
+
+    <body>
+        <h1>Anda Belum Belanja</h1>
+        <a th:href="@{/home}"><button>kembali ke home</button></a>
+    </body>
+</html>

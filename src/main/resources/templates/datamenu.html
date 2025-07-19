@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Menu List</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-image: url('./assets/images/hero-bg.jpg');
+            background-size: cover;
+            background-position: center;
+            background-color: #fff8dc;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: top;
+            height: 100vh;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 32px;
+            margin-top: 20px;
+            color: #ffd700;
+            /* McDonald's red */
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 80%;
+            /* Adjust the width as needed */
+            margin: 20px 0;
+        }
+
+        th,
+        td {
+            background-color: #ffd700;
+            border: 1px solid #d12028;
+            /* McDonald's red */
+            text-align: center;
+            padding: 8px 12px;
+        }
+
+        th {
+            background-color: #ffd700;
+            /* McDonald's yellow */
+            color: #d12028;
+            /* McDonald's red */
+            font-weight: bold;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        img {
+            max-width: 100px;
+            max-height: 100px;
+            object-fit: cover;
+            display: block;
+            margin: auto;
+        }
+
+        a {
+            display: inline-block;
+            margin: 10px;
+            padding: 8px 16px;
+            text-decoration: none;
+            color: #fff;
+            background-color: #d12028;
+            /* McDonald's red */
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        a:hover {
+            background-color: #ae1c23;
+            /* Darker red on hover */
+        }
+
+        button {
+            padding: 8px 16px;
+            font-size: 16px;
+            border: none;
+            background-color: #d12028;
+            /* McDonald's red */
+            color: #fff;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #ae1c23;
+        }
+
+        /* Menyesuaikan tata letak ul dan li */
+        ul.nav.nav-tabs {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #d12028;
+            /* McDonald's red */
+        }
+
+        ul.nav.nav-tabs li {
+            float: left;
+        }
+
+        ul.nav.nav-tabs li a {
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+
+        ul.nav.nav-tabs li a:hover {
+            background-color: #ae1c23;
+            /* Darker red on hover */
+        }
+    </style>
+</head>
+
+<body>
+    <ul class="nav nav-tabs">
+        <li class="nav-item">
+            <a class="nav-link active" aria-current="page" th:href="@{/datamenu}">data menu</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" th:href="@{/datauser}">data user</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" th:href="@{/}">logout</a>
+        </li>
+    </ul>
+    <h1>Menu List</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Item Name</th>
+                <th>Category</th>
+                <th>Price</th>
+                <th>Stock</th>
+                <th>Image</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <div th:each="menu : ${menuList}">
+                <tr th:each="cate : ${menu.category}">
+                    <td th:text="${menu.id}"></td>
+                    <td th:text="${menu.itemName}"></td>
+                    <td th:text="${cate.categoryName}"></td>
+                    <td th:text="${menu.price}"></td>
+                    <td th:text="${menu.stock}"></td>
+                    <td>
+                        <!-- <img th:src="${menu.imagePath}" alt="Menu Image" style="max-width: 100px; max-height: 100px;"> -->
+                        <img th:src="${menu.imagePath}" alt="Gambar gagal dimuat"
+                            style="max-width: 100px; max-height: 100px;">
+                    </td>
+                    <td>
+                        <a th:href="@{/update-menu/{id}(id=${menu.id})}">Update</a>
+                        <a th:href="@{/delete-menu/{id}(id=${menu.id})}"
+                            onclick="return confirm('Are you sure?')">Delete</a>
+                    </td>
+                </tr>
+            </div>
+        </tbody>
+    </table>
+    <a href="/add-menu"><button>Add Menu</button></a>
+</body>
+
+</html>

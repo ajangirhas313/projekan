@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Foodie - Supper delicious Burger in town!</title>
+
+  <link rel="stylesheet" th:href="@{/assets/css/home.css}" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&family=Rubik:wght@400;500;600;700&family=Shadows+Into+Light&display=swap"
+    rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@3.6.0/fonts/remixicon.css" rel="stylesheet">
+
+<body>
+  <header class="header" data-header>
+    <div class="container">
+      <h1>
+        <a th:href="@{/home}" class="logo">Zestoo<span class="span">.</span></a>
+      </h1>
+
+      <nav class="navbar" data-navbar>
+        <ul class="navbar-list">
+          <li class="nav-item">
+            <a th:href="@{/home}" class="navbar-link" data-nav-link>Home</a>
+          </li>
+
+          <li class="nav-item">
+            <a th:href="@{/menu1}" class="navbar-link" data-nav-link>Menu</a>
+          </li>
+        </ul>
+      </nav>
+
+      <div class="header-btn-group">
+        <button class="search-btn" aria-label="Search" data-search-btn>
+          <a th:href="@{/cart}"><i class="ri-shopping-cart-fill"></i></a>
+        </button>
+
+        <a th:href="@{/}"><button class="btn btn-hover">Logut</button></a>
+
+        <button class="nav-toggle-btn" aria-label="Toggle Menu" data-menu-toggle-btn>
+          <span class="line top"></span>
+          <span class="line middle"></span>
+          <span class="line bottom"></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <section class="hero" id="home" style="background-image: url('./assets/images/hero-bg.jpg')">
+    <div class="container">
+
+      <div class="hero-content">
+
+        <p class="hero-subtitle">cari resto murah tapi enak?</p>
+
+        <h2 class="h1 hero-title">Restoran Terenak Sejagat Raya Konoha</h2>
+
+        <p class="hero-text">Zestoo merupakan restoran yang menjual berbagai menu makana seluruh dunia dengan harga
+          receh namun rasanya gak recehan</p>
+
+        <a th:href="@{/menu1}"><button class="btn">Order Now</button></a>
+
+      </div>
+
+      <figure class="hero-banner">
+        <img src="/assets/images/burger2.png" width="820" height="716" alt="" aria-hidden="true"
+          class="w-100 hero-img-bg">
+
+        <img src="./assets/images/burger2.png" width="700" height="637" loading="lazy" alt="Burger"
+          class="w-100 hero-img">
+      </figure>
+
+    </div>
+  </section>
+
+
+  <footer class="footer">
+
+    <div class="footer-top" style="background-image: url('./assets/images/footer-illustration.png')">
+      <div class="container">
+        <div class="footer-brand">
+          <a href="" class="logo">Zestoo<span class="span">.</span></a>
+          <p class="footer-text">
+            Enjoy Your Meal !!! </p>
+        </div>
+        <ul class="footer-list">
+          <li>
+            <p class="footer-list-title">Contact Info</p>
+          </li>
+
+          <li>
+            <p class="footer-list-item">0838-2379-6208</p>
+          </li>
+
+          <li>
+            <p class="footer-list-item">ajangirhas@gmail.com</p>
+          </li>
+
+          <li>
+            <address class="footer-list-item">Gununghalu,Jawa Barat</address>
+          </li>
+
+        </ul>
+
+        <ul class="footer-list">
+
+          <li>
+            <p class="footer-list-title">Jam Buka</p>
+          </li>
+
+          <li>
+            <p class="footer-list-item">Senin-Sabtu : 08.00 - 22.00 wib</p>
+          </li>
+
+          <li>
+            <p class="footer-list-item">Jumat : tutup jam 20.00</p>
+          </li>
+
+          <li>
+            <p class="footer-list-item">Sabtu : tutup jam 00.00</p>
+          </li>
+
+        </ul>
+
+        <div class="footer-bottom">
+          <div class="container">
+            <p class="copyright-text">
+              &copy; 2022 <a href="#" class="copyright-link">ajangirhasrifai</a> All Rights Reserved.
+            </p>
+          </div>
+        </div>
+  </footer>
+</body>
+
+</html>

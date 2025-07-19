@@ -1,0 +1,124 @@
+<!-- <!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Edit Menu</title>
+    </head>
+
+    <body>
+        <h1>Update Menu</h1>
+        <form th:action="@{/save-menu}" method="post">
+            <input type="hidden" th:field="*{menu.id}">
+            <label for="">item_name</label> <br>
+            <input type="text" th:field="${menu.item_name}"> <br>
+            <label for="">category</label> <br>
+            <input type="text" th:field="${menu.category}"> <br>
+            <label for="">price</label> <br>
+            <input type="text" th:field="${menu.price}"> <br>
+            <label for="">stock</label> <br>
+            <input type="text" th:field="${menu.stock}"> <br>
+            <label for="">image</label> <br>
+            <input type="text" th:field="${menu.image}"> <br>
+            <button type="submit">Save Menu</button>
+        </form>
+    </body>
+</html>
+     -->
+
+     <!DOCTYPE html>
+     <html xmlns:th="http://www.thymeleaf.org">
+     <head>
+         <title>Edit Menu</title>
+         <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f4e6;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        form {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            width: 300px;
+            transition: transform 0.3s;
+        }
+
+        form:hover {
+            transform: scale(1.05);
+        }
+
+        h1 {
+            text-align: center;
+            color: #e74c3c;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 16px;
+            box-sizing: border-box;
+            border: 1px solid #e67e22;
+            border-radius: 4px;
+            transition: border-color 0.3s;
+        }
+
+        input:focus {
+            border-color: #d35400;
+        }
+
+        button {
+            background-color: #3498db;
+            color: #fff;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+        }
+    </style>
+         </style>
+     </head>
+     <body>
+         <h1>Update Menu</h1>
+         <form th:action="@{'/update-menu/' + ${menu.id}}" th:object="${menu}" method="post" enctype="multipart/form-data">
+            <input type="hidden" th:field="*{id}">
+             <label for="itemName">Item Name</label> <br>
+             <input type="text" id="itemName" name="itemName" th:field="${menu.itemName}" required> <br>
+     
+             <label for="categoryId">Category</label> <br>
+             <select id="categoryId" name="categoryId" th:field="${menu.category.id}" required>
+                 <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.categoryName}"></option>
+             </select> <br>
+             
+     
+             <label for="price">Price</label> <br>
+             <input type="number" id="price" name="price" th:field="${menu.price}" required> <br>
+     
+             <label for="stock">Stock</label> <br>
+             <input type="number" id="stock" name="stock" th:field="${menu.stock}" required> <br>
+     
+             <label for="file">Image</label> <br>
+             <input type="file" id="file" name="file" accept="image/*"> <br>
+     
+             <!-- Tombol untuk submit form -->
+             <button type="submit">Update Menu</button>
+         </form>
+     </body>
+     </html>
+     

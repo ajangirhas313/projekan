@@ -1,0 +1,99 @@
+<!-- pembayaran.html -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>pembayaran</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-image: url('/assets/images/hero-bg.jpg');
+            background-size: cover;
+            background-position: center;
+            background-color: red;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        form {
+            width: 300px;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        h2 {
+            text-align: center;
+            color: #d32f2f;
+        }
+
+        label {
+            display: block;
+            margin-top: 10px;
+            color: #333;
+        }
+
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            margin-bottom: 15px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        h3 {
+            color: #d32f2f;
+            margin-bottom: 20px;
+        }
+
+        button {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 10px;
+            text-decoration: none;
+            color: #fff;
+            background-color: #d32f2f;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #b71c1c;
+        }
+    </style>
+
+    <!-- Tambahkan bagian head sesuai kebutuhan Anda -->
+</head>
+
+<body>
+    <div>
+        <form th:action="@{/process-payment}" method="post" th:object="${pembayaran}">
+            <h2>Pembayaran</h2>
+
+            <label for="alamat">Alamat:</label>
+            <input type="text" id="alamat" name="alamat" th:field="*{alamat}" required>
+
+            <label for="nama">Nama:</label>
+            <input type="text" id="nama" name="nama" th:field="*{nama}" required>
+
+            <label for="nama">No Rek :</label>
+            <input type="text" id="Rek" name="Rek" required>
+
+            <h3>Total Payment: <span th:text="${pembayaran.totalPembayaran}"></span></h3>
+
+            <button type="submit">Bayar Sekarang</button>
+        </form>
+    </div>
+</body>
+
+</html>

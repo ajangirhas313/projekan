@@ -1,0 +1,75 @@
+h2 {
+    color: #d12028;;
+    text-align: center;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    background-color: rgba(255, 255, 255, 0.8); /* White background with some transparency */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.login {
+    width: 500px; /* Adjust the width as needed */
+}
+
+.login_field {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.bi {
+    margin-right: 10px;
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+    border: 1px solid #d12028; /* McDonald's red */
+    border-radius: 4px;
+    margin-left: 10px;
+}
+
+.gender-options {
+display: flex;
+align-items: center;
+}
+
+.gender-options label {
+margin: 10px 200px 20px 20px;
+/* margin-left: 20px;
+margin-right: 300px; */
+display: flex;
+align-items: center;
+}
+
+.gender-options label input {
+margin-right: 10px; /* Adjust the margin as needed */
+}
+
+
+button {
+    width: 100%;
+    padding: 10px;
+    background-color: #d12028; /* McDonald's red */
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #ae1c23; /* Darker red on hover */
+}

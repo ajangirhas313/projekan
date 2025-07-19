@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Choice</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-image: url('./assets/images/hero-bg.jpg');
+            background-size: cover;
+            background-position: center;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        .form-container {
+            background-color: yellow;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            text-align: center;
+        }
+
+        h2 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 1 darkred;
+            text-decoration: none;
+            color: #fff;
+            background-color: red;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+
+        .button:hover {
+            background-color: darkred;
+        }
+
+        .button--admin {
+            background-color: red;
+        }
+
+        .button--admin:hover {
+            background-color: darkred;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="form-container">
+        <h2>Silakan Pilih Peran Anda</h2>
+        <a href="/sign-in" class="button">Login Sebagai User</a>
+        <a href="/sign-in/admin" class="button button--admin">Login Sebagai Admin</a>
+    </div>
+</body>
+
+</html>

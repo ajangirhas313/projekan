@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Add Menu</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-image: url('./assets/images/hero-bg.jpg');  /* Replace 'path/to/your/image.jpg' with the actual path to your image */
+            background-size: cover; /* Cover the entire viewport */
+            background-position: center; /* Center the image */
+            background-color: #f8f4e6;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        form {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            width: 30%;
+            transition: transform 0.3s;
+        }
+
+        form:hover {
+            transform: scale(1.05);
+        }
+
+        h1 {
+            text-align: center;
+            color: #d12028;
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #333;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 5px;
+            box-sizing: border-box;
+            border: 1px solid #e67e22;
+            border-radius: 4px;
+            transition: border-color 0.3s;
+        }
+
+        input:focus {
+            border-color: #d35400;
+        }
+
+        select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 16px;
+            box-sizing: border-box;
+            border: 1px solid #e67e22;
+            border-radius: 4px;
+            transition: border-color 0.3s;
+        }
+
+        select:focus {
+            border-color: #d35400;
+        }
+
+        button {
+            background-color: #d12028; /* McDonald's red */
+            color: #fff;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        button:hover {
+            background-color: #ae1c23; /* Darker red on hover */
+        }
+    </style>
+</head>
+
+<body>
+    <form th:action="@{/save-menu}" method="post" enctype="multipart/form-data">
+        <h1>Add Menu</h1>   
+        <label for="itemName">Nama Menu :</label> <br>
+        <input type="text" id="itemName" name="itemName" th:field="${menu.itemName}" pattern="[a-zA-Z\s]+" required placeholder="nama menu"> <br>
+
+        <label for="categoryId">Category</label> <br>
+        <select id="categoryId" name="categoryId" th:field="${menu.category.id}" required>
+            <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.categoryName}"></option>
+        </select> <br>
+        
+        <label for="price">Price</label> <br>
+        <input type="number" id="price" name="price" th:field="${menu.price}" required> <br>
+
+        <label for="stock">Stock</label> <br>
+        <input type="number" id="stock" name="stock" th:field="${menu.stock}" required> <br>
+
+        <label for="file">Image</label> <br>
+        <input type="file" id="file" name="file" accept="image/*" required> <br>
+
+        <!-- Tombol untuk submit form -->
+        <button type="submit">Save Menu</button>
+    </form>
+</body>
+
+</html>

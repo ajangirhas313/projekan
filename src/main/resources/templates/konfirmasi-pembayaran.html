@@ -1,0 +1,90 @@
+
+<!-- Tambahkan tautan atau tombol untuk kembali ke halaman utama atau melakukan tindakan lainnya -->
+<!-- konfirmasi-pembayaran.html -->
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <style>
+        /* Styles for McDonald's theme */
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #FEDD00;
+    margin: 0;
+    padding: 0;
+}
+
+div {
+    max-width: 600px;
+    margin: 50px auto;
+    background-color: #FFF;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+h2 {
+    color: #D50000;
+}
+
+p {
+    color: #333;
+}
+
+span {
+    font-weight: bold;
+}
+
+/* Tombol Home */
+button {
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    background-color: #d12028; /* McDonald's red */
+    color: #fff; /* Warna teks putih */
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+
+    /* Menempatkan tombol di tengah halaman */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+button:hover {
+    background-color: #ae1c23; /* Darker red on hover */
+}
+
+/* Tautan pada tombol */
+a {
+    text-decoration: none;
+    color: #fff; /* Warna teks putih */
+}
+
+
+
+/* Add more styles as needed for your specific design */
+
+    </style>
+    <!-- Head section -->
+</head>
+
+<body>
+    <div>
+        <!-- Tampilkan informasi konfirmasi pembayaran -->
+        <h2>Pembayaran berhasil!</h2>
+
+        <!-- Tampilkan detail pembayaran atau informasi lainnya -->
+        <p>Detail Pembayaran:</p>
+        <p>Alamat: <span th:text="${pembayaran.alamat}"></span></p>
+        <p>Nama: <span th:text="${pembayaran.nama}"></span></p>
+        <p>Total Pembayaran: <span th:text="${pembayaran.totalPembayaran}"></span></p>
+    </div>
+    <a th:href="@{/home}"><button>Home</button></a>
+</body>
+
+</html>

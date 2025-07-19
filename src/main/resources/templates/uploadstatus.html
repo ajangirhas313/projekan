@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Upload Status</title>
+    <style>
+        body {
+            background-color: #FEE101; /* McDonald's yellow */
+            color: #D12028; /* McDonald's red */
+            font-family: 'Helvetica Neue', sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-top: 80px;
+        }
+
+        h2 {
+            font-size: 1.5em;
+            margin-top: 20px;
+        }
+
+        .btn-primary {
+            display: inline-block;
+            padding: 10px 20px;
+            margin-top: 30px;
+            background-color: #D12028; /* McDonald's red */
+            color: #FEE101; /* McDonald's yellow */
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 1.2em;
+        }
+
+        .btn-primary:hover {
+            background-color: #AE1C23; /* Darker red on hover */
+        }
+    </style>
+</head>
+<body>
+    <h1 th:text="${message}"></h1>
+    <h2 th:if="${error}" th:text="${error}"></h2>
+    <a href="/datamenu" class="btn-primary">Kembali ke Beranda</a>
+</body>
+</html>
