@@ -1,5 +1,6 @@
 package com.example.projekan.model;
 
+import jakarta.persistence.Column; // <-- Impor ini
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -26,8 +27,8 @@ public class Menu {
     private Integer stock;
 
     private String imagePath; 
-
+    
+    // --> TAMBAHKAN KOLOM INI UNTUK DESKRIPSI <--
+    @Column(columnDefinition = "TEXT") // Menggunakan TEXT agar bisa menampung deskripsi yang panjang
+    private String description;
 }
-
-
-

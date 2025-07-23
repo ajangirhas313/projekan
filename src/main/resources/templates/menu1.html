@@ -1,224 +1,416 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Zestoo - Daftar Jajanan</title>
 
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1 .0">
-  <title>Zessto</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Gochi+Hand&family=Poppins:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/remixicon@3.6.0/fonts/remixicon.css"
+      rel="stylesheet"
+    />
 
-  <link rel="stylesheet" th:href="@{/assets/css/style.css}" />
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&family=Rubik:wght@400;500;600;700&family=Shadows+Into+Light&display=swap"
-    rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/remixicon@3.6.0/fonts/remixicon.css" rel="stylesheet">
-  <style>
-    /* Form Styles */
-form {
-    margin-top: 20px;
-}
+    <style>
+      :root {
+        --bg-cream: #f8f4e6;
+        --text-dark: #4a4a4a;
+        --primary-orange: #ff8c42;
+        --secondary-brown: #8d5b4c;
+        --accent-green: #76b852;
+        --font-heading: "Gochi Hand", cursive;
+        --font-body: "Poppins", sans-serif;
+      }
 
-input.porsi {
-    background-color: aliceblue;
-    margin-right: 10px;
-    margin-bottom: 10px;
-    padding: 8px;
-}
+      /* Reset & Base Styles */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        background-color: var(--bg-cream);
+        font-family: var(--font-body);
+        color: var(--text-dark);
+        overflow-x: hidden;
+      }
 
-.btn-primary {
-    background-color: #ffd700; 
-    color: #d81e05; 
-    padding: 12px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.3s ease;
-}
+      /* Animasi */
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
 
-.btn-primary:hover {
-    background-color: #d81e05; 
-    color: #fff;
-}
+      /* Header */
+      .header {
+        position: sticky;
+        top: 0;
+        left: 0;
+        width: 100%;
+        padding: 15px 5%;
+        z-index: 100;
+        background-color: rgba(248, 244, 230, 0.9);
+        backdrop-filter: blur(10px);
+        border-bottom: 1px solid #e0dccc;
+      }
+      .header .container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        max-width: 1400px;
+        margin: 0 auto;
+      }
+      .logo {
+        font-family: var(--font-heading);
+        font-size: 2.8rem;
+        color: var(--secondary-brown);
+        text-decoration: none;
+      }
+      .logo .span {
+        color: var(--primary-orange);
+      }
+      .navbar-list {
+        display: flex;
+        list-style: none;
+        gap: 40px;
+      }
+      .navbar-link {
+        color: var(--text-dark);
+        text-decoration: none;
+        font-size: 1rem;
+        font-weight: 500;
+        transition: color 0.3s ease;
+      }
+      .navbar-link:hover {
+        color: var(--primary-orange);
+      }
+      .header-btn-group {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+      }
+      .header-btn-group .ri-shopping-cart-fill {
+        color: var(--secondary-brown);
+        font-size: 1.8rem;
+        transition: color 0.3s ease;
+      }
+      .header-btn-group .ri-shopping-cart-fill:hover {
+        color: var(--primary-orange);
+      }
+      .btn-logout {
+        background: var(--primary-orange);
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 50px;
+        cursor: pointer;
+        font-weight: 500;
+        transition: background-color 0.3s ease;
+      }
+      .btn-logout:hover {
+        background-color: #e5722e;
+      }
 
-/* Centering Button */
-.btn-primary-container {
-    display: flex;
-    justify-content: center;
-    margin-top: 20px;
-}
-  </style>
+      /* Halaman Menu */
+      .food-menu {
+        padding: 40px 5% 80px;
+      }
+      .container {
+        max-width: 1400px;
+        margin: 0 auto;
+      }
+      .section-title {
+        font-family: var(--font-heading);
+        font-size: 3.5rem;
+        text-align: center;
+        margin-bottom: 15px;
+        color: var(--secondary-brown);
+      }
+      .section-text {
+        text-align: center;
+        max-width: 600px;
+        margin: 0 auto 40px;
+        color: #777;
+      }
+      .fiter-list {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+        list-style: none;
+        margin-bottom: 50px;
+      }
+      .filter-btn {
+        background-color: white;
+        color: var(--text-dark);
+        border: 1px solid #ddd;
+        padding: 10px 25px;
+        border-radius: 50px;
+        cursor: pointer;
+        font-weight: 500;
+        transition: all 0.3s ease;
+      }
+      .filter-btn:hover,
+      .filter-btn.active {
+        background-color: var(--primary-orange);
+        color: white;
+        border-color: var(--primary-orange);
+      }
 
-</head>
-    <body>
-        <header class="header" data-header>
-            <div class="container">
-                <h1>
-                    <a th:href="@{/home}" class="logo">Zestoo<span class="span">.</span></a>
-                </h1>
+      /* Kartu Menu Interaktif */
+      .food-menu-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 30px;
+        list-style: none;
+      }
+      .food-menu-card {
+        background: white;
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 5px 25px rgba(0, 0, 0, 0.08);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        opacity: 0;
+        animation: fadeInUp 0.5s ease forwards;
+        cursor: pointer;
+        display: flex;
+        flex-direction: column; /* <-- Tambahkan ini */
+      }
+      .food-menu-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+      }
+      .card-img {
+        width: 100%;
+        height: 220px;
+        object-fit: cover;
+        pointer-events: none;
+      }
 
-                <nav class="navbar" data-navbar>
-                    <ul class="navbar-list">
-                        <li class="nav-item">
-                            <a th:href="@{/home}" class="navbar-link" data-nav-link>Home</a>
-                        </li>
+      /* -- KODE BARU UNTUK KONSISTENSI UKURAN -- */
+      .card-content {
+        padding: 20px;
+        flex-grow: 1; /* <-- Tambahkan ini */
+        display: flex; /* <-- Tambahkan ini */
+        flex-direction: column; /* <-- Tambahkan ini */
+      }
 
-                        <li class="nav-item">
-                            <a th:href="@{/menu1}" class="navbar-link" data-nav-link>Menu</a>
-                        </li>
-                    </ul>
-                </nav>
+      .card-info {
+        flex-grow: 1; /* <-- Tambahkan ini untuk mendorong form ke bawah */
+      }
 
-                <div class="header-btn-group">
-                    <button class="search-btn" aria-label="Search" data-search-btn>
-                        <a th:href="@{/cart}"><i class="ri-shopping-cart-fill"></i></a>
-                    </button>
+      .category {
+        color: var(--primary-orange);
+        font-weight: 700;
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        margin-bottom: 10px;
+      }
 
-                    <a th:href="@{/}"><button class="btn btn-hover">Logut</button></a>
+      /* -- KODE BARU UNTUK JUDUL PANJANG -- */
+      .card-title {
+        font-size: 1.5rem;
+        font-weight: 700;
+        margin-bottom: 10px;
+        white-space: nowrap; /* Mencegah teks turun ke baris baru */
+        overflow: hidden; /* Menyembunyikan teks yang berlebih */
+        text-overflow: ellipsis; /* Menampilkan "..." */
+      }
 
-                    <button class="nav-toggle-btn" aria-label="Toggle Menu" data-menu-toggle-btn>
-                        <span class="line top"></span>
-                        <span class="line middle"></span>
-                        <span class="line bottom"></span>
-                    </button>
+      .price {
+        font-size: 1.3rem;
+        font-weight: 700;
+        color: var(--accent-green);
+      }
+
+      .card-form-container {
+        max-height: 0;
+        opacity: 0;
+        overflow: hidden;
+        transition: max-height 0.5s ease-out, opacity 0.4s ease-out,
+          margin-top 0.5s ease-out, padding-top 0.5s ease-out;
+        margin-top: 0;
+        padding-top: 0;
+        border-top: 1px solid transparent;
+      }
+      .food-menu-card.active .card-form-container {
+        max-height: 150px;
+        opacity: 1;
+        margin-top: 20px;
+        padding-top: 20px;
+        border-top: 1px solid #eee;
+      }
+      .card-form-container form {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      input.porsi {
+        width: 70px;
+        padding: 10px;
+        text-align: center;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        font-size: 1rem;
+      }
+      .btn-primary {
+        background-color: var(--secondary-brown);
+        color: white;
+        padding: 10px 15px;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        flex-grow: 1;
+        font-weight: 500;
+        transition: background-color 0.3s ease;
+      }
+      .btn-primary:hover {
+        background-color: #7a4a3b;
+      }
+    </style>
+  </head>
+  <body>
+    <header class="header" data-header>
+      <div class="container">
+        <h1>
+          <a th:href="@{/home}" class="logo"
+            >Zestoo<span class="span">.</span></a
+          >
+        </h1>
+        <nav class="navbar" data-navbar>
+          <ul class="navbar-list">
+            <li class="nav-item">
+              <a th:href="@{/home}" class="navbar-link">Home</a>
+            </li>
+            <li class="nav-item">
+              <a th:href="@{/menu1}" class="navbar-link">Menu</a>
+            </li>
+          </ul>
+        </nav>
+        <div class="header-btn-group">
+          <a th:href="@{/cart}"><i class="ri-shopping-cart-fill"></i></a>
+          <a th:href="@{/}"><button class="btn-logout">Logout</button></a>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section class="section food-menu" id="food-menu">
+        <div class="container">
+          <h2 class="section-title">Semua Jajanan Favoritmu</h2>
+          <p class="section-text">
+            Pilih dan pesan jajanan kesukaanmu. Dari yang gurih sampai yang
+            manis, semuanya ada di sini!
+          </p>
+
+          <ul class="fiter-list">
+            <li>
+              <a th:href="@{/menu1}"
+                ><button
+                  class="filter-btn"
+                  th:classappend="${activeCategoryId == 0 ? 'active' : ''}"
+                >
+                  Semua
+                </button></a
+              >
+            </li>
+            <li>
+              <a th:href="@{/menu/1}"
+                ><button
+                  class="filter-btn"
+                  th:classappend="${activeCategoryId == 1 ? 'active' : ''}"
+                >
+                  Gurih & Asin
+                </button></a
+              >
+            </li>
+            <li>
+              <a th:href="@{/menu/2}"
+                ><button
+                  class="filter-btn"
+                  th:classappend="${activeCategoryId == 2 ? 'active' : ''}"
+                >
+                  Manis & Legit
+                </button></a
+              >
+            </li>
+            <li>
+              <a th:href="@{/menu/3}"
+                ><button
+                  class="filter-btn"
+                  th:classappend="${activeCategoryId == 3 ? 'active' : ''}"
+                >
+                  Minuman Segar
+                </button></a
+              >
+            </li>
+          </ul>
+
+          <ul class="food-menu-list">
+            <li
+              th:each="menu, iter : ${menuList}"
+              th:style="'animation-delay:' + ${iter.index * 100} + 'ms;'"
+            >
+              <a
+                th:href="@{/menu/detail/{id}(id=${menu.id})}"
+                th:each="cate : ${menu.category}"
+                class="food-menu-card"
+                style="text-decoration: none; color: inherit"
+              >
+                <img
+                  th:src="${menu.imagePath}"
+                  loading="lazy"
+                  th:alt="${menu.itemName}"
+                  class="card-img"
+                />
+                <div class="card-content">
+                  <p th:text="${cate.categoryName}" class="category"></p>
+                  <h3
+                    th:text="${menu.itemName}"
+                    class="h3 card-title"
+                    th:title="${menu.itemName}"
+                  ></h3>
+                  <div
+                    th:text="'Rp. ' + ${#numbers.formatDecimal(menu.price, 0, 'POINT', 0, 'COMMA')}"
+                    class="price"
+                  ></div>
                 </div>
-            </div>
-        </header>
-        <main>
-            <section class="section food-menu" id="food-menu">
-                <div class="container">
+              </a>
+            </li>
+          </ul>
+        </div>
+      </section>
+    </main>
 
-                    <p class="section-subtitle">Popular Dishes</p>
-
-                    <h2 class="h2 section-title">
-                        Our Delicious <span class="span">Foods</span>
-                    </h2>
-
-                    <p class="section-text">
-                        Food is any substance consumed to provide nutritional support for an organism.
-                    </p>
-
-                    <ul class="fiter-list">
-
-                        <li>
-                            <a th:href="@{/menu1}"><button class="filter-btn ">All</button></a>
-                        </li>
-
-                        <li>
-                            <a th:href="@{/menu/1}"><button class="filter-btn">Appetizer</button></a>
-                        </li>
-
-                        <li>
-                            <a th:href="@{/menu/2}"><button class="filter-btn">Main Course</button></a>
-                        </li>
-
-                        <li>
-                            <a th:href="@{/menu/3}"><button class="filter-btn">Dessert</button></a>
-                        </li>
-
-                        <li>
-                            <a th:href="@{/menu/4}"><button class="filter-btn">Drink</button></a>
-                        </li>
-                    </ul>
-
-                    <ul class="food-menu-list">
-                        <li th:each="menu : ${menuList}">
-                            <div th:each="cate : ${menu.category}" class="food-menu-card">
-                                <div class="menu-item-anim">
-                                    <div class="card-banner">
-                                        <img th:src="${menu.imagePath}" width="300" height="300" loading="lazy"
-                                            alt="Burger King Whopper" class="w-100">
-                                    </div>
-
-                                    <div class="wrapper">
-                                        <p th:text="${cate.categoryName}" class="category"></p>
-                                    </div>
-                                    <h3 th:text="${menu.itemName}" class="h3 card-title"></h3>
-                                    <div class="price-wrapper">
-                                        <p class="price-text">Price:</p>
-                                        <data th:text="Rp. + ${menu.price}" class="price" value="29.00"></data>
-                                    </div>
-                                    <form th:action="@{/add-to-cart}" method="post">
-                                        <input type="hidden" name="menuId" th:value="${menu.id}">
-                                        <label class="porsi" for="porsi">Masukan Jumlah Porsi :</label>
-                                        <input class="porsi" type="number" name="portionCount" value="1" min="1"
-                                            required>
-                                        <button class="btn btn-primary" type="submit">Add to Cart</button>
-                                    </form>
-                                </div>
-                            </div>
-                </div>
-                </li>
-                </ul>
-                </div>
-            </section>
-            </article>
-        </main>
-
-
-        <footer class="footer">
-
-            <div class="footer-top" style="background-image: url('./assets/images/footer-illustration.png')">
-                <div class="container">
-                    <div class="footer-brand">
-                        <a href="" class="logo">Foodie<span class="span">.</span></a>
-                        <p class="footer-text">
-                            Financial experts support or help you to to find out which way you can raise your funds
-                            more.
-                        </p>
-                    </div>
-                    <ul class="footer-list">
-                        <li>
-                            <p class="footer-list-title">Contact Info</p>
-                        </li>
-
-                        <li>
-                            <p class="footer-list-item">0838-2379-6208</p>
-                        </li>
-
-                        <li>
-                            <p class="footer-list-item">ajangirhas@gmail.com</p>
-                        </li>
-
-                        <li>
-                            <address class="footer-list-item">Gununghalu,Jawa Barat</address>
-                        </li>
-
-                    </ul>
-
-                    <ul class="footer-list">
-
-                        <li>
-                            <p class="footer-list-title">Jam Buka</p>
-                        </li>
-
-                        <li>
-                            <p class="footer-list-item">Senin-Sabtu : 08.00 - 22.00 wib</p>
-                        </li>
-
-                        <li>
-                            <p class="footer-list-item">Jumat : tutup jam 20.00</p>
-                        </li>
-
-                        <li>
-                            <p class="footer-list-item">Sabtu : tutup jam 00.00</p>
-                        </li>
-
-                    </ul>
-
-                    <div class="footer-bottom">
-                        <div class="container">
-                            <p class="copyright-text">
-                                &copy; 2022 <a href="#" class="copyright-link">ajangirhasrifai</a> All Rights Reserved.
-                            </p>
-                        </div>
-                    </div>
-        </footer>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
-            crossorigin="anonymous"></script>
-    </body>
-
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const menuCards = document.querySelectorAll(".food-menu-card");
+        menuCards.forEach((card) => {
+          card.addEventListener("click", (event) => {
+            if (event.target.closest("form")) {
+              return;
+            }
+            const isAlreadyActive = card.classList.contains("active");
+            menuCards.forEach((c) => {
+              c.classList.remove("active");
+            });
+            if (!isAlreadyActive) {
+              card.classList.add("active");
+            }
+          });
+        });
+      });
+    </script>
+  </body>
 </html>

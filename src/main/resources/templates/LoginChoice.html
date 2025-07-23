@@ -1,69 +1,133 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login Choice</title>
+    <title>Zestoo - Selamat Datang!</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Gochi+Hand&family=Poppins:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.6.0/fonts/remixicon.css" rel="stylesheet">
+
     <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-image: url('./assets/images/hero-bg.jpg');
-            background-size: cover;
-            background-position: center;
-            background-color: #f4f4f4;
+        :root {
+            --bg-cream: #f8f4e6;
+            --text-dark: #4a4a4a;
+            --primary-orange: #ff8c42;
+            --secondary-brown: #8d5b4c;
+            --font-heading: 'Gochi Hand', cursive;
+            --font-body: 'Poppins', sans-serif;
+        }
+
+        * {
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background-color: var(--bg-cream);
+            margin: 0;
             display: flex;
             align-items: center;
             justify-content: center;
             height: 100vh;
+            color: var(--text-dark);
+        }
+        
+        @keyframes slideUpFade {
+            from {
+                transform: translateY(20px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
         }
 
-        .form-container {
-            background-color: yellow;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            padding: 20px;
+        .choice-container {
+            background-color: white;
+            border-radius: 16px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+            padding: 40px;
             text-align: center;
+            max-width: 450px;
+            width: 90%;
+            animation: slideUpFade 0.8s ease forwards;
         }
 
+        .logo {
+            font-family: var(--font-heading);
+            font-size: 3.5rem;
+            color: var(--secondary-brown);
+            text-decoration: none;
+            margin-bottom: 10px;
+            display: inline-block;
+        }
+
+        .logo .span {
+            color: var(--primary-orange);
+        }
+        
         h2 {
-            color: #333;
-            margin-bottom: 20px;
+            font-size: 1.5rem;
+            font-weight: 500;
+            color: var(--text-dark);
+            margin-bottom: 30px;
+        }
+
+        .button-group {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
         }
 
         .button {
             display: inline-block;
-            padding: 10px 20px;
-            margin: 1 darkred;
+            padding: 15px 25px;
             text-decoration: none;
-            color: #fff;
-            background-color: red;
-            border-radius: 4px;
-            transition: background-color 0.3s ease;
+            color: white;
+            background-color: var(--primary-orange);
+            border: none;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 140, 66, 0.3);
         }
 
         .button:hover {
-            background-color: darkred;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(255, 140, 66, 0.5);
         }
 
         .button--admin {
-            background-color: red;
+            background-color: var(--secondary-brown);
+            box-shadow: 0 4px 15px rgba(141, 91, 76, 0.3);
         }
 
         .button--admin:hover {
-            background-color: darkred;
+            background-color: #7a4a3b;
+            box-shadow: 0 6px 20px rgba(141, 91, 76, 0.5);
         }
     </style>
 </head>
 
 <body>
-    <div class="form-container">
-        <h2>Silakan Pilih Peran Anda</h2>
-        <a href="/sign-in" class="button">Login Sebagai User</a>
-        <a href="/sign-in/admin" class="button button--admin">Login Sebagai Admin</a>
+    <div class="choice-container">
+        <a href="#" class="logo">Zestoo<span class="span">.</span></a>
+        <h2>Selamat Datang! Silakan masuk.</h2>
+        <div class="button-group">
+            <a href="/sign-in" class="button">
+                <i class="ri-user-fill"></i> Masuk sebagai Pelanggan
+            </a>
+            <a href="/sign-in/admin" class="button button--admin">
+                <i class="ri-settings-3-fill"></i> Masuk sebagai Admin
+            </a>
+        </div>
     </div>
 </body>
-
 </html>

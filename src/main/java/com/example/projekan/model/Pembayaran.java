@@ -1,7 +1,6 @@
 package com.example.projekan.model;
 
 import java.util.List;
-
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -10,7 +9,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import lombok.Data;
 
-// Pembayaran.java
 @Entity
 @Data
 public class Pembayaran {
@@ -21,8 +19,11 @@ public class Pembayaran {
     private String alamat;
     private String nama;
     private int totalPembayaran;
+    
+    // --> TAMBAHKAN FIELD BARU <--
+    private String metodePembayaran;
+    private String nomorRekening; // Untuk menyimpan No. Rek/E-wallet
 
     @OneToMany(mappedBy = "pembayaran", cascade = CascadeType.ALL)
     private List<CartItem> cartItems;
-
 }

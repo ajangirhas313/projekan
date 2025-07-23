@@ -1,25 +1,18 @@
 package com.example.projekan.controller;
 
-import java.util.List;
-
-// package com.ahtcoffee.crudcoffee.controllers;
-
-// package com.ahtcoffe.crudcofee.controllers;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.ui.Model;
 
-import com.example.projekan.model.Menu;
-// import com.example.projekan.model.Admin;
+// Impor yang diperlukan
 import com.example.projekan.model.User;
 import com.example.projekan.repository.UserRepository;
 import com.example.projekan.service.UserService;
-
-import org.springframework.ui.Model;
+import jakarta.servlet.http.HttpSession; // <-- Impor HttpSession
 
 @Controller
 public class UserController {
@@ -29,50 +22,42 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    // Metode logout sekarang menggunakan HttpSession
     @GetMapping("/")
-    public String Home() {
-        MenuController.isLogin=false;
+    public String logout(HttpSession session) {
+        session.invalidate(); // <-- Hapus semua data dari sesi
+        MenuController.isLogin = false;
         return "LoginChoice";
     }
+    
+    // ... (metode lainnya seperti showLoginChoice, signInForm, signUpForm) ...
 
-    public class LoginChoiceController {
-        @GetMapping("/login-choice")
-        public String showLoginChoice() {
-            return "LoginChoice"; // Sesuaikan dengan nama HTML template Anda
+    @PostMapping("/sign-in")
+    public String signIn(@ModelAttribute("user") User user, Model model, HttpSession session) { // <-- Tambahkan HttpSession
+        
+        boolean pengecekan = userService.pengecekanuser(user.getUsername(), user.getPassword());
+        
+        if (pengecekan) {
+            // Temukan data lengkap user dari database
+            User loggedInUser = userRepository.findByUsername(user.getUsername());
+            
+            // Simpan seluruh objek user ke dalam sesi
+            session.setAttribute("loggedInUser", loggedInUser);
+            
+            MenuController.isLogin = true;
+            return "redirect:/home";
+
+        } else {
+            model.addAttribute("error", "Username atau password salah");
+            return "redirect:/sign-in?error=true";   
         }
     }
-
+    
+    // ... (sisa metode di UserController tetap sama) ...
     @GetMapping("/sign-in")
     public String signInForm(Model model) {
         model.addAttribute("user", new User());
         return "login";
-    }
-
-    @PostMapping("/sign-in")
-    public String signIn(@ModelAttribute("user") User user, Model model) {
-        
-        boolean pengecekan = userService.pengecekanuser(user.getUsername(), user.getPassword());
-        if (pengecekan) {
-            // return "redirect:/home";
-            
-            // List<User> users = userRepository.findAll();
-        // boolean isLogin = false;
-        for (User user2 : userRepository.findAll()) {
-            if(user2.getUsername().equals(user.getUsername()) && user2.getPassword().equals(user.getPassword())) {
-                MenuController.isLogin = true;
-                user.setId(user2.getId());
-                break;
-            }
-        }
-        }
-
-        if(MenuController.isLogin) {
-            userRepository.deleteAll();
-            userRepository.save(user);
-            return "redirect:/home";
-        } 
-        model.addAttribute("error", "Username atau password salah");
-        return "redirect:/sign-in";   
     }
 
     @GetMapping("/sign-up")
@@ -93,16 +78,8 @@ public class UserController {
 
     @GetMapping("/datauser")
     public String showMenu(Model model) {
-        List<User> users = userRepository.findAll();
-        model.addAttribute("userList", users);
+        model.addAttribute("userList", userRepository.findAll());
         return "datauser";
-        // return "menu1";
-    }
-
-    @GetMapping("/add-User")
-    public String showAddUserForm(Model model) {
-        model.addAttribute("menu", new Menu());
-        return "addMenu";
     }
 
     @GetMapping("/delete-user/{id}")

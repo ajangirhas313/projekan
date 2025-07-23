@@ -1,99 +1,171 @@
-<!-- pembayaran.html -->
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>pembayaran</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zestoo - Checkout</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Gochi+Hand&family=Poppins:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.6.0/fonts/remixicon.css" rel="stylesheet">
     <style>
+        :root {
+            --bg-cream: #f8f4e6;
+            --bg-white: #ffffff;
+            --text-dark: #4a4a4a;
+            --primary-orange: #ff8c42;
+            --secondary-brown: #8d5b4c;
+            --border-color: #e0dccc;
+            --font-heading: 'Gochi Hand', cursive;
+            --font-body: 'Poppins', sans-serif;
+            --shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            font-family: 'Arial', sans-serif;
-            background-image: url('/assets/images/hero-bg.jpg');
-            background-size: cover;
-            background-position: center;
-            background-color: red;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
+            font-family: var(--font-body);
+            background-color: var(--bg-cream);
+            color: var(--text-dark);
         }
-
-        form {
-            width: 300px;
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            text-align: center;
+        .header {
+            padding: 15px 5%;
+            background-color: rgba(248, 244, 230, 0.9);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
         }
-
-        h2 {
-            text-align: center;
-            color: #d32f2f;
+        .header .container {
+            display: flex; justify-content: space-between; align-items: center;
+            max-width: 1400px; margin: 0 auto;
         }
-
-        label {
-            display: block;
-            margin-top: 10px;
-            color: #333;
+        .logo {
+            font-family: var(--font-heading); font-size: 2.8rem;
+            color: var(--secondary-brown); text-decoration: none;
         }
-
-        input {
-            width: 100%;
-            padding: 8px;
-            margin-top: 5px;
-            margin-bottom: 15px;
-            box-sizing: border-box;
-            border: 1px solid #ccc;
-            border-radius: 4px;
+        .logo .span { color: var(--primary-orange); }
+        
+        .checkout-page { padding: 60px 5%; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .page-title {
+            font-family: var(--font-heading); font-size: 3.5rem;
+            text-align: center; margin-bottom: 40px;
+            color: var(--secondary-brown);
         }
-
-        h3 {
-            color: #d32f2f;
-            margin-bottom: 20px;
+        .checkout-layout {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr;
+            gap: 40px;
+            align-items: flex-start;
         }
-
-        button {
-            display: inline-block;
-            padding: 10px 20px;
-            margin: 10px;
-            text-decoration: none;
-            color: #fff;
-            background-color: #d32f2f;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
+        .payment-form, .order-summary {
+            background: var(--bg-white);
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: var(--shadow);
         }
-
-        button:hover {
-            background-color: #b71c1c;
+        .form-title {
+            font-size: 1.5rem; font-weight: 700;
+            margin-bottom: 25px; border-bottom: 1px solid var(--border-color);
+            padding-bottom: 15px;
         }
+        .form-group { margin-bottom: 20px; text-align: left; }
+        .form-group label {
+            display: block; margin-bottom: 8px;
+            font-weight: 500; font-size: 0.9rem;
+        }
+        .form-group input, .form-group select {
+            width: 100%; padding: 12px 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px; font-size: 1rem;
+            font-family: var(--font-body);
+        }
+        .btn-submit {
+            width: 100%; display: inline-block; margin-top: 15px;
+            padding: 15px 25px; text-decoration: none;
+            color: white; background-color: var(--primary-orange);
+            border: none; border-radius: 50px;
+            font-weight: 700; font-size: 1rem;
+            cursor: pointer; transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 140, 66, 0.3);
+        }
+        .btn-submit:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(255, 140, 66, 0.5);
+        }
+        
+        /* Order Summary */
+        .summary-item {
+            display: flex; justify-content: space-between;
+            align-items: center; padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+        .summary-item:last-of-type { border-bottom: none; }
+        .item-name { font-weight: 500; }
+        .item-qty { color: #777; font-size: 0.9rem; }
+        .item-price { font-weight: 500; }
+        .summary-total {
+            margin-top: 20px; padding-top: 20px;
+            border-top: 2px solid var(--text-dark);
+            display: flex; justify-content: space-between;
+            font-size: 1.3rem; font-weight: 700;
+        }
+        .total-price { color: var(--primary-orange); }
     </style>
-
-    <!-- Tambahkan bagian head sesuai kebutuhan Anda -->
 </head>
-
 <body>
-    <div>
-        <form th:action="@{/process-payment}" method="post" th:object="${pembayaran}">
-            <h2>Pembayaran</h2>
+    <header class="header">
+        <div class="container">
+            <h1><a th:href="@{/home}" class="logo">Zestoo<span class="span">.</span></a></h1>
+        </div>
+    </header>
 
-            <label for="alamat">Alamat:</label>
-            <input type="text" id="alamat" name="alamat" th:field="*{alamat}" required>
+    <main class="checkout-page">
+        <div class="container">
+            <h2 class="page-title">Checkout</h2>
+            <form th:action="@{/process-payment}" method="post" th:object="${pembayaran}">
+                <div class="checkout-layout">
+                    <div class="payment-form">
+                        <h3 class="form-title">Detail Pengiriman & Pembayaran</h3>
+                        <div class="form-group">
+                            <label for="nama">Nama Lengkap</label>
+                            <input type="text" id="nama" th:field="*{nama}" placeholder="Masukkan nama Anda" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="alamat">Alamat Pengiriman</label>
+                            <input type="text" id="alamat" th:field="*{alamat}" placeholder="Masukkan alamat lengkap" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="metodePembayaran">Metode Pembayaran</label>
+                            <select id="metodePembayaran" th:field="*{metodePembayaran}" required>
+                                <option value="">Pilih Metode</option>
+                                <option value="Transfer Bank">Transfer Bank</option>
+                                <option value="GoPay">GoPay</option>
+                                <option value="OVO">OVO</option>
+                                <option value="Dana">Dana</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="nomorRekening">Nomor Rekening / No. E-Wallet</label>
+                            <input type="text" id="nomorRekening" th:field="*{nomorRekening}" placeholder="Contoh: 081234567890" required>
+                        </div>
+                        <button type="submit" class="btn-submit">Bayar Sekarang</button>
+                    </div>
 
-            <label for="nama">Nama:</label>
-            <input type="text" id="nama" name="nama" th:field="*{nama}" required>
-
-            <label for="nama">No Rek :</label>
-            <input type="text" id="Rek" name="Rek" required>
-
-            <h3>Total Payment: <span th:text="${pembayaran.totalPembayaran}"></span></h3>
-
-            <button type="submit">Bayar Sekarang</button>
-        </form>
-    </div>
+                    <div class="order-summary">
+                        <h3 class="form-title">Ringkasan Pesanan</h3>
+                        <div th:each="item : ${cartItems}" class="summary-item">
+                            <div>
+                                <div class="item-name" th:text="${item.itemName}"></div>
+                                <div class="item-qty" th:text="${item.portioncount} + ' porsi'"></div>
+                            </div>
+                            <div class="item-price" th:text="'Rp. ' + ${#numbers.formatDecimal(item.totalPayment, 0, 'POINT', 0, 'COMMA')}"></div>
+                        </div>
+                        <div class="summary-total">
+                            <span>Total</span>
+                            <span class="total-price" th:text="'Rp. ' + ${#numbers.formatDecimal(totalPayment, 0, 'POINT', 0, 'COMMA')}"></span>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </main>
 </body>
-
 </html>

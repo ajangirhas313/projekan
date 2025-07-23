@@ -1,90 +1,148 @@
-
-<!-- Tambahkan tautan atau tombol untuk kembali ke halaman utama atau melakukan tindakan lainnya -->
-<!-- konfirmasi-pembayaran.html -->
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zestoo - Pembayaran Berhasil</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Gochi+Hand&family=Poppins:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.6.0/fonts/remixicon.css" rel="stylesheet">
+
     <style>
-        /* Styles for McDonald's theme */
+        :root {
+            --bg-cream: #f8f4e6;
+            --text-dark: #4a4a4a;
+            --primary-orange: #ff8c42;
+            --secondary-brown: #8d5b4c;
+            --accent-green: #76b852;
+            --font-heading: 'Gochi Hand', cursive;
+            --font-body: 'Poppins', sans-serif;
+            --shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+        }
 
-body {
-    font-family: 'Arial', sans-serif;
-    background-color: #FEDD00;
-    margin: 0;
-    padding: 0;
-}
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-div {
-    max-width: 600px;
-    margin: 50px auto;
-    background-color: #FFF;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    text-align: center;
-}
+        body {
+            font-family: var(--font-body);
+            background-color: var(--bg-cream);
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            color: var(--text-dark);
+        }
 
-h2 {
-    color: #D50000;
-}
+        @keyframes slideUpFade {
+            from {
+                transform: translateY(20px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
 
-p {
-    color: #333;
-}
+        .confirmation-container {
+            background-color: white;
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+            padding: 40px;
+            text-align: center;
+            max-width: 500px;
+            width: 90%;
+            animation: slideUpFade 0.8s ease forwards;
+        }
 
-span {
-    font-weight: bold;
-}
+        .icon-success {
+            font-size: 5rem;
+            color: var(--accent-green);
+            margin-bottom: 20px;
+            line-height: 1;
+        }
 
-/* Tombol Home */
-button {
-    padding: 10px 20px;
-    font-size: 16px;
-    border: none;
-    background-color: #d12028; /* McDonald's red */
-    color: #fff; /* Warna teks putih */
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
+        .confirmation-container h2 {
+            font-family: var(--font-heading);
+            font-size: 3rem;
+            color: var(--secondary-brown);
+            margin-bottom: 15px;
+        }
 
-    /* Menempatkan tombol di tengah halaman */
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-}
+        .confirmation-container p {
+            color: #777;
+            margin-bottom: 30px;
+            line-height: 1.7;
+        }
 
-button:hover {
-    background-color: #ae1c23; /* Darker red on hover */
-}
+        .details-box {
+            background-color: var(--bg-cream);
+            border: 1px dashed var(--border-color);
+            border-radius: 10px;
+            padding: 20px;
+            text-align: left;
+            margin-bottom: 30px;
+        }
+        
+        .details-box p {
+            margin-bottom: 10px;
+            color: var(--text-dark);
+        }
+        
+        .details-box p:last-child {
+            margin-bottom: 0;
+        }
 
-/* Tautan pada tombol */
-a {
-    text-decoration: none;
-    color: #fff; /* Warna teks putih */
-}
+        .details-box span {
+            font-weight: 700;
+            float: right;
+        }
 
+        .btn-home {
+            width: 100%;
+            display: inline-block;
+            padding: 15px 25px;
+            text-decoration: none;
+            color: white;
+            background-color: var(--primary-orange);
+            border: none;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 140, 66, 0.3);
+        }
 
-
-/* Add more styles as needed for your specific design */
-
+        .btn-home:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(255, 140, 66, 0.5);
+        }
     </style>
-    <!-- Head section -->
 </head>
-
 <body>
-    <div>
-        <!-- Tampilkan informasi konfirmasi pembayaran -->
-        <h2>Pembayaran berhasil!</h2>
 
-        <!-- Tampilkan detail pembayaran atau informasi lainnya -->
-        <p>Detail Pembayaran:</p>
-        <p>Alamat: <span th:text="${pembayaran.alamat}"></span></p>
-        <p>Nama: <span th:text="${pembayaran.nama}"></span></p>
-        <p>Total Pembayaran: <span th:text="${pembayaran.totalPembayaran}"></span></p>
+    <div class="confirmation-container">
+        <div class="icon-success">
+            <i class="ri-checkbox-circle-fill"></i>
+        </div>
+        <h2>Pembayaran Berhasil!</h2>
+        <p>Terima kasih telah memesan! Pesanan jajanan Anda sedang kami siapkan dan akan segera dikirimkan ke alamat Anda.</p>
+
+        <div class="details-box">
+            <p>Nama: <span th:text="${pembayaran.nama}">Nama Pelanggan</span></p>
+            <p>Alamat: <span th:text="${pembayaran.alamat}">Alamat Pengiriman</span></p>
+            <p>Total: <span th:text="'Rp. ' + ${#numbers.formatDecimal(pembayaran.totalPembayaran, 0, 'POINT', 0, 'COMMA')}">Rp. 50.000</span></p>
+        </div>
+
+        <a th:href="@{/home}" class="btn-home">Kembali ke Home</a>
     </div>
-    <a th:href="@{/home}"><button>Home</button></a>
-</body>
 
+</body>
 </html>

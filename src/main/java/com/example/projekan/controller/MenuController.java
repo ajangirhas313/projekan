@@ -21,7 +21,7 @@ import java.util.Optional;
 public class MenuController {
     private final MenuRepository menuRepository;
     private final CategoryRepository categoryRepository;
-    public static boolean isLogin=false;
+    public static boolean isLogin = false;
 
     public MenuController(MenuRepository menuRepository, CategoryRepository categoryRepository) {
         this.menuRepository = menuRepository;
@@ -32,15 +32,15 @@ public class MenuController {
     public String getMenuByCategory(@PathVariable Long categoryId, Model model) {
         Category category = categoryRepository.findById(categoryId)
                 .orElseThrow(() -> new RuntimeException("Category not found"));
-    
+
         List<Menu> menuList = menuRepository.findByCategory(category);
-    
+
         model.addAttribute("category", category);
         model.addAttribute("menuList", menuList);
-    
-        return "menu1"; // Sesuaikan dengan nama HTML template Anda
+        model.addAttribute("activeCategoryId", categoryId); // <-- TAMBAHKAN BARIS INI
+
+        return "menu1";
     }
-    
 
     @GetMapping("/datamenu")
     public String showMenu(Model model) {
@@ -57,32 +57,16 @@ public class MenuController {
     }
 
     @PostMapping("/save-menu")
-    public String saveMenu(@ModelAttribute("menu") Menu menu,
-            @RequestParam("file") MultipartFile file, Model model) {
+    public String saveMenu(@ModelAttribute("menu") Menu menu, Model model) {
         try {
-            Path targetPath = Paths.get(System.getProperty("user.dir"), "src", "main", "resources", "static", "uploads",
-                    file.getOriginalFilename());
-
-            file.transferTo(targetPath.toFile());
-
-            // Set URL atau path di dalam database
-            String url = "http://localhost:8080/uploads/" + file.getOriginalFilename();
-
-            // Set properti imagePath pada entitas Menu
-            menu.setImagePath(url);
-
-            // Simpan ke entitas Menu
+            // Karena imagePath sudah diisi dari form, kita bisa langsung menyimpannya.
             menuRepository.save(menu);
-
             model.addAttribute("message", "Berhasil menyimpan menu");
             return "uploadstatus";
         } catch (Exception e) {
-            model.addAttribute("error", "Gagal menyimpan menu");
-            e.printStackTrace(); // Handle exception sesuai kebutuhan
+            model.addAttribute("error", "Gagal menyimpan menu: " + e.getMessage());
+            return "uploadstatus";
         }
-
-        // return "uploadStatus";
-        return "uploadstatus";
     }
 
     @GetMapping("/update-menu/{id}")
@@ -114,71 +98,74 @@ public class MenuController {
     @PostMapping("/update-menu/{id}")
     public String updateMenu(@PathVariable("id") Long id,
             @ModelAttribute("menu") Menu updatedMenu,
-            @RequestParam("file") MultipartFile file,
             Model model) {
         try {
             Optional<Menu> optionalMenu = menuRepository.findById(id);
             if (optionalMenu.isPresent()) {
                 Menu menu = optionalMenu.get();
+                // Salin semua properti yang diupdate dari form
                 menu.setItemName(updatedMenu.getItemName());
                 menu.setCategory(updatedMenu.getCategory());
                 menu.setPrice(updatedMenu.getPrice());
                 menu.setStock(updatedMenu.getStock());
-
-                // Check if a new file is uploaded
-                if (!file.isEmpty()) {
-                    // Set tempat menyimpan file dalam proyek
-                    Path targetPath = Paths.get(System.getProperty("user.dir"), "src", "main", "resources", "static",
-                            file.getOriginalFilename());
-
-                    // Simpan file di dalam proyek
-                    file.transferTo(targetPath.toFile());
-
-                    // Set URL atau path di dalam database
-                    String url = "http://localhost:8080/" + file.getOriginalFilename();
-                    menu.setImagePath(url);
-                }
+                // Langsung update dengan imagePath (URL) dari form
+                menu.setImagePath(updatedMenu.getImagePath());
 
                 menuRepository.save(menu);
-                model.addAttribute("message", "Berhasil menyimpan menu");
-
+                model.addAttribute("message", "Berhasil memperbarui menu");
                 return "uploadstatus";
             } else {
-                return "redirect:/menu?error";
+                model.addAttribute("error", "Menu tidak ditemukan");
+                return "uploadstatus";
             }
         } catch (Exception e) {
-            return "redirect:/edit-menu/" + id + "?error";
+            model.addAttribute("error", "Gagal memperbarui menu: " + e.getMessage());
+            return "uploadstatus";
         }
     }
 
-
-     @GetMapping("/restoku")
+    @GetMapping("/restoku")
     public String show(Model model) {
         model.addAttribute("menuList", menuRepository.findAll());
         return "restoku";
         // return "menu1";
     }
 
-         @GetMapping("/home")
+    @GetMapping("/home")
     public String showhome(Model model) {
-        if(MenuController.isLogin) {
+        if (MenuController.isLogin) {
             model.addAttribute("menuList", menuRepository.findAll());
             return "home";
-        } 
+        }
         model.addAttribute("error", "Username atau password salah");
-        return "redirect:/sign-in"; 
+        return "redirect:/sign-in";
         // return "menu1";
     }
 
-      @GetMapping("/menu1")
+    @GetMapping("/menu1")
     public String showMenuUser(Model model) {
         model.addAttribute("menuList", menuRepository.findAll());
-        // return "home";
+        model.addAttribute("activeCategoryId", 0L); // <-- TAMBAHKAN BARIS INI
         return "menu1";
     }
 
     @GetMapping("/about")
     public String About(Model model) {
         return "about";
+    }
+
+    // Tambahkan metode ini di dalam kelas MenuController
+
+    @GetMapping("/menu/detail/{id}")
+    public String showMenuDetail(@PathVariable("id") Integer id, Model model) {
+        // Cari menu berdasarkan ID, jika tidak ada akan melempar error
+        Menu menu = menuRepository.findById(Long.valueOf(id))
+                .orElseThrow(() -> new IllegalArgumentException("Invalid menu Id:" + id));
+
+        // Kirim data menu ke halaman
+        model.addAttribute("menu", menu);
+
+        // Arahkan ke template detail-menu.html
+        return "detail-menu";
     }
 }
